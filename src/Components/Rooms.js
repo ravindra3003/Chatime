@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -6,16 +7,19 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import ExpandLess from "@material-ui/icons/ExpandLess";
+import Button from "@material-ui/core/Button";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 import AddIcon from "@material-ui/icons/Add";
-import { GoGistSecret } from 'react-icons/go'
+import { TiUserDeleteOutline } from 'react-icons/ti'
 import { db } from "../Firebase/Firebase";
 import { useHistory } from "react-router-dom";
 import { IoMdAddCircle, IoMdChatboxes, IoMdChatbubbles } from "react-icons/io";
-import { IoMdPeople } from "react-icons/io";
+import { FcPlus, FcPortraitMode } from 'react-icons/fc'
 import { CgUserList } from "react-icons/cg"
+import { IoPeopleCircleOutline } from 'react-icons/io5'
+import { IoIosPeople } from 'react-icons/io'
 import { BiHash } from "react-icons/bi";
 import CreateRoom from "./CreateRoom";
 import Fade from "@material-ui/core/Fade";
@@ -31,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#cb43fc",
   },
   primary: {
-    color: "#cb43fc",
+    color: "gray",
   },
 }));
 
@@ -39,9 +43,11 @@ function Rooms() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [channelList, setChannelList] = useState([]);
+  const [channelDelete, setchanneltoDelete] = useState("");
   const [showCreateRoom, setShowCreateRoom] = useState(false);
   const history = useHistory();
   const [alert, setAlert] = useState(false);
+  const channelId = useParams().id;
 
   useEffect(() => {
     db.collection("channels")
@@ -55,6 +61,18 @@ function Rooms() {
         );
       });
   }, []);
+
+  // const handleDelete = () => {
+  //   db.collection("channels")
+  //     .doc(channelId)
+  //     .delete()
+  //     .then((res) => {
+  //       console.log("deleted successfully");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const handleClick = () => {
     setOpen(!open);
@@ -120,7 +138,7 @@ function Rooms() {
       <ListItem style={{ paddingTop: 0, paddingBottom: 0 }}>
         <ListItemText primary="Create New Channel" />
         <IconButton edge="end" aria-label="add" onClick={manageCreateRoomModal}>
-          <IoMdAddCircle className={classes.primary} />
+          <AddIcon className={classes.primary} />
         </IconButton>
       </ListItem>
       <Divider />
@@ -128,13 +146,13 @@ function Rooms() {
       <List component="nav" aria-labelledby="nested-list-subheader">
         <ListItem button onClick={handleClick}>
           <ListItemIcon>
-            <CgUserList className={classes.iconDesign} />
+            <IoIosPeople style={{ fontSize: "1.5em", color: open ? "#8e9297" : 'white' }} />
           </ListItemIcon>
-          <ListItemText primary="CHANNELS" style={{ color: "#8e9297" }} />
+          <ListItemText primary="Channels" style={{ color: open ? "#8e9297" : 'white' }} />
           {open ? (
-            <ExpandLess className={classes.primary} />
+            <ExpandLess style={{ color: open ? "#8e9297" : 'white' }} />
           ) : (
-            <ExpandMore className={classes.primary} />
+            <ExpandMore style={{ color: open ? "#8e9297" : 'white' }} />
           )}
         </ListItem>
 
@@ -161,6 +179,19 @@ function Rooms() {
                   }
                   style={{ color: "#dcddde" }}
                 />
+                {/* <TiUserDeleteOutline
+                  className={classes.iconDesign}
+                  style={{ color: "#b9bbbe" }}
+                  onClick={handleDelete}
+                /> */}
+                {/* <Button
+                  onClick={handleDelete}
+                  color="primary"
+                  autoFocus
+                  variant="contained"
+                >
+                  Delete
+                </Button> */}
               </ListItem>
             ))}
           </List>

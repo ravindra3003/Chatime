@@ -9,16 +9,17 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+// import AccountCircle from "@material-ui/icons/AccountCircle";
+// import MenuItem from "@material-ui/core/MenuItem";
+// import Menu from "@material-ui/core/Menu";
 import Badge from "@material-ui/core/Badge";
 import Avatar from "@material-ui/core/Avatar";
 import { Grid } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
 import Rooms from "./Rooms";
 import { GoSignOut } from "react-icons/go";
-import { FaUserEdit } from "react-icons/fa";
+// import { FaUserEdit } from "react-icons/fa";
+import { FcSettings } from 'react-icons/fc';
 import { auth, db } from "../Firebase/Firebase";
 import { Link } from "react-router-dom";
 import EditProfile from "./EditProfile";
@@ -72,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: "10px",
   },
   avatarName: {
-    fontSize: "1em",
+    fontSize: "1.1em",
     paddingLeft: "12px",
     paddingTop: "8px",
   },
@@ -140,7 +141,7 @@ function Application(props) {
   const [userDetails, setUserDetails] = useState([]);
   const [editProfileModal, setEditProfileModal] = useState(false);
   const [alert, setAlert] = useState(false);
-  const open = Boolean(anchorEl);
+  // const open = Boolean(anchorEl);
 
   useEffect(() => {
     db.collection("users")
@@ -190,6 +191,7 @@ function Application(props) {
           CHATIME
         </Typography>
       </Toolbar>
+
       <Divider />
       <Grid className={classes.avatarGrid}>
         <div className={classes.avatarIcon}>
@@ -211,7 +213,22 @@ function Application(props) {
             {userDetails.displayName}
           </Typography>
         </div>
+        {editProfileModal ? (
+          <EditProfile toggler={toggleEditProfile} alert={handleAlert} />
+        ) : null}
         <div>
+          <Typography variant="h4" className={classes.avatarName}>
+            Edit Profile
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={toggleEditProfile}
+              color="inherit"
+            >
+              <FcSettings  />
+            </IconButton>
+          </Typography>
           {/* <Typography variant="h4" className={classes.avatarName}>
             {userDetails.name}
           </Typography> */}
@@ -246,9 +263,7 @@ function Application(props) {
         }
       />
 
-      {editProfileModal ? (
-        <EditProfile toggler={toggleEditProfile} alert={handleAlert} />
-      ) : null}
+
 
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar style={{ minHeight: "50px" }}>
@@ -269,16 +284,19 @@ function Application(props) {
           </Typography>
 
           <div>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
+            <Typography variant="h4" className={classes.avatarName}>
+              Sign Out
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={signOut}
+                color="inherit"
+              >
+                <GoSignOut />
+              </IconButton>
+            </Typography>
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorEl}
               getContentAnchorEl={null}
@@ -301,7 +319,7 @@ function Application(props) {
               <MenuItem onClick={signOut}>
                 <GoSignOut /> &nbsp; Sign Out
               </MenuItem>
-            </Menu>
+            </Menu> */}
           </div>
         </Toolbar>
       </AppBar>
