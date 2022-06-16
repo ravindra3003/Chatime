@@ -7,7 +7,7 @@
 ### https://fir-chat-41ecb.web.app/
 
 <div align="center">
-  <img alt="Demo" src="./Assets/chatime.png" />
+  <img alt="Demo" src="./Assets/update.png" />
 </div>
 
 </div>
