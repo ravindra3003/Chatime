@@ -10,15 +10,16 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
 // import AccountCircle from "@material-ui/icons/AccountCircle";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import Menu from "@material-ui/core/Menu";
+import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
 import Badge from "@material-ui/core/Badge";
 import Avatar from "@material-ui/core/Avatar";
-import { Grid } from "@material-ui/core";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid } from "@material-ui/core";
 import { deepPurple } from "@material-ui/core/colors";
 import Rooms from "./Rooms";
 import { GoSignOut } from "react-icons/go";
-// import { FaUserEdit } from "react-icons/fa";
+import { FaUserEdit } from "react-icons/fa";
 import { FcSettings } from 'react-icons/fc';
 import { auth, db } from "../Firebase/Firebase";
 import { Link } from "react-router-dom";
@@ -141,7 +142,7 @@ function Application(props) {
   const [userDetails, setUserDetails] = useState([]);
   const [editProfileModal, setEditProfileModal] = useState(false);
   const [alert, setAlert] = useState(false);
-  // const open = Boolean(anchorEl);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     db.collection("users")
@@ -226,7 +227,7 @@ function Application(props) {
               onClick={toggleEditProfile}
               color="inherit"
             >
-              <FcSettings  />
+              <FcSettings />
             </IconButton>
           </Typography>
           {/* <Typography variant="h4" className={classes.avatarName}>
@@ -290,7 +291,7 @@ function Application(props) {
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={signOut}
+                onClick={handleMenu}
                 color="inherit"
               >
                 <GoSignOut />
@@ -312,14 +313,50 @@ function Application(props) {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={toggleEditProfile}>
-                <FaUserEdit /> &nbsp; Edit Profile
+            
+              <MenuItem>
+                <GoSignOut /> &nbsp; Are you sure ?
               </MenuItem>
+    
+                <Button
+                  onClick={signOut}
+                  color="primary"
+                  autoFocus
+                  variant="contained"
+                >
+                  Yes
+                </Button>
 
-              <MenuItem onClick={signOut}>
-                <GoSignOut /> &nbsp; Sign Out
-              </MenuItem>
+                <Button
+                  onClick={handleClose}
+                  color="primary"
+                  autoFocus
+                  variant="contained"
+                >
+                  No
+                </Button>
             </Menu> */}
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Are you sure you want to Sign Out?</DialogTitle>
+              {/* <DialogContent>
+              </DialogContent> */}
+              <DialogActions>
+                <Button onClick={handleClose} style={{ color: "white" }}>
+                  Cancel
+                </Button>
+                <Button
+                  style={{ color: 'white', backgroundColor: 'red' }}
+                  onClick={signOut}
+                  variant="contained"
+                >
+                  Yes, Sign Out
+                </Button>
+              </DialogActions>
+            </Dialog>
           </div>
         </Toolbar>
       </AppBar>
