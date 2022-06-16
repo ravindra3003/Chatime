@@ -32,7 +32,7 @@
 
 ### Clone this repository
 
-`https://github.com/ravindra3003/Chatime` <br/>
+git clone `https://github.com/ravindra3003/Chatime` <br/>
 `cd Chatime`
 
 ### Install Dependencies
